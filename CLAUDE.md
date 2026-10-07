@@ -4,7 +4,7 @@ Android arama engelleme uygulaması + PHP API + tanıtım sitesi. APK olarak da�
 Sunucuya özel yollar ve komutlar: `CLAUDE.local.md` (git dışı).
 
 - Site: https://karaliste.bivora.com.tr
-- GitHub: henüz yok (repo açılınca buraya yaz)
+- GitHub: https://github.com/Batuhan-Kahraman35/karaliste (public, remote `origin`)
 - Android paket adı: `com.bivora.karaliste` (değiştirilemez)
 
 ## Yapı
@@ -47,7 +47,7 @@ Tablolar: `Ayarlar`, `Kullanicilar`, `Oturumlar`, `SifreSifirlama`, `EslesmeTipl
 - SMTP: `smtp_sunucu`, `smtp_port`, `smtp_guvenlik`, `smtp_kullanici`, `smtp_sifre`, `smtp_gonderen`, `smtp_gonderen_ad`
 - Güvenlik: `oturum_gecerlilik_gun`, `sifirlama_kod_dakika`, `sifirlama_max_deneme`
 - Sürüm: `uygulama_surum`, `uygulama_surum_kodu`, `uygulama_min_surum_kodu`, `uygulama_surum_notlari` (satır başına bir madde), `uygulama_surum_tarihi`, `uygulama_apk_dosya`, `uygulama_min_android`
-- Site: `site_indirme_acik` (1 = sitede indirme butonu), `gizlilik_guncelleme_tarihi`, `veri_sorumlusu`, `iletisim_eposta`
+- Site: `site_indirme_acik` (1 = sitede indirme butonu), `github_adres` (alt bilgi ve gizlilik sayfasındaki kaynak kod bağlantısı), `gizlilik_guncelleme_tarihi`, `veri_sorumlusu`, `iletisim_eposta`
 - Değeri `CHANGE_ME` olan ayar sitede doldurulmamış sayılır.
 
 Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenAramalar`. Geçişler `VeriTabani.kt` içinde (1→2→3→4). Şema değişirse yeni `Migration` yazılmalı, `fallbackToDestructiveMigration` kullanılmaz.
@@ -80,5 +80,4 @@ Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenArama
 
 - [ ] Uygulama içi güncelleme cihazda çalıştı (1.4.1 yayında, site 2026-10-07'de yayına alındı). Sessiz kurulum (onaysız 2. güncelleme) henüz doğrulanmadı.
 - [ ] `surumler/` altındaki eski APK'lar (1.2.0, 1.3.0) silinebilir
-- [ ] İlk commit ve GitHub reposu (public olacaksa önce gizli bilgi taraması)
 - [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, giriş için hız sınırlama (rate limit), hesap silme ekranı, yönetim paneli

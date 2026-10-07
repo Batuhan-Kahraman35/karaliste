@@ -126,3 +126,4 @@ img { max-width: 100%; height: auto; }
 .bivora-logo { height: 30px; width: auto; display: block; }
 .alt-baglantilar { display: flex; gap: 18px; color: var(--yazi-soluk); font-size: 14px; }
 .alt-baglantilar a { color: var(--yazi-soluk); }
+.github-baglanti { display: inline-flex; align-items: center; gap: 6px; }

@@ -37,3 +37,15 @@ FROM (VALUES
 ) AS y ([Anahtar], [Deger], [Aciklama])
 WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Ayarlar] a WHERE a.[Ayarlar_Anahtar] = y.[Anahtar]);
 GO
+
+-- ============================================================
+-- Versiyon 1.1.1 - 2026-10-07
+-- Ayarlar: github_adres (sitede kaynak kod bağlantısı)
+-- ============================================================
+USE [karaliste_DB];
+GO
+
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Ayarlar] WHERE [Ayarlar_Anahtar] = 'github_adres')
+    INSERT INTO [dbo].[Ayarlar] ([Ayarlar_Anahtar], [Ayarlar_Deger], [Ayarlar_Aciklama])
+    VALUES ('github_adres', N'https://github.com/Batuhan-Kahraman35/karaliste', N'Kaynak kod deposu; CHANGE_ME iken sitede bağlantı görünmez');
+GO

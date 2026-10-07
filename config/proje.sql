@@ -151,6 +151,7 @@ VALUES
     ('uygulama_surum_kodu',        N'5',                     N'Yayındaki APK versionCode; uygulama bundan küçükse güncelleme önerir'),
     ('uygulama_min_surum_kodu',    N'1',                     N'Bunun altındaki sürümler zorunlu güncelleme ekranı görür'),
     ('uygulama_surum_notlari',     N'',                      N'Sürüm notları; her satır bir madde'),
-    ('site_indirme_acik',          N'0',                     N'1 ise sitede APK indirme butonu görünür');
+    ('site_indirme_acik',          N'0',                     N'1 ise sitede APK indirme butonu görünür'),
+    ('github_adres',               N'CHANGE_ME',             N'Kaynak kod deposu; CHANGE_ME iken sitede bağlantı görünmez');
 GO
 

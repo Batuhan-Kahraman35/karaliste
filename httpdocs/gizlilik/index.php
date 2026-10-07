@@ -10,6 +10,7 @@ ini_set('display_errors', '0');
 $veriSorumlusu = Sablon::ayar('veri_sorumlusu') ?? 'Bivora';
 $iletisim      = Sablon::ayar('iletisim_eposta');
 $guncelleme    = Sablon::tarih(Sablon::ayar('gizlilik_guncelleme_tarihi'));
+$github        = Sablon::ayar('github_adres');
 
 Sablon::ust('Gizlilik Politikası · Karaliste', 'Karaliste uygulamasının kişisel verileri nasıl işlediğine dair gizlilik politikası.');
 ?>
@@ -52,6 +53,9 @@ Sablon::ust('Gizlilik Politikası · Karaliste', 'Karaliste uygulamasının kiş
         <li>Uygulama ile sunucu arasındaki tüm iletişim HTTPS ile şifrelenir.</li>
         <li>Şifreler ve doğrulama kodları tek yönlü (bcrypt) özet olarak saklanır.</li>
         <li>Giriş anahtarınız telefonunuzda şifreli olarak saklanır; sunucuda yalnızca özeti tutulur.</li>
+        <?php if ($github): ?>
+            <li>Uygulamanın kaynak kodu açıktır; bu metindeki taahhütleri <a href="<?= Sablon::e($github) ?>" target="_blank" rel="noopener">GitHub</a> üzerinden doğrulayabilirsiniz.</li>
+        <?php endif; ?>
     </ul>
 
     <h2>8. Saklama süresi</h2>
