@@ -84,6 +84,7 @@ fun AnaEkran(
     var arama by rememberSaveable { mutableStateOf("") }
     var eklemeAcik by rememberSaveable { mutableStateOf(false) }
     var silinecek by remember { mutableStateOf<Karaliste?>(null) }
+    var hesapSilmeAcik by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         vm.mesaj.collect { snackbar.showSnackbar(it) }
@@ -109,7 +110,12 @@ fun AnaEkran(
                             else Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.senkronize_et))
                         }
                     }
-                    HesapMenusu(oturum = oturum, girisAc = girisAc, cikis = vm::cikis)
+                    HesapMenusu(
+                        oturum = oturum,
+                        girisAc = girisAc,
+                        cikis = vm::cikis,
+                        hesapSil = { hesapSilmeAcik = true }
+                    )
                 }
             )
         },
@@ -181,6 +187,12 @@ fun AnaEkran(
         )
     }
 
+    // Oturum başka yerden kapanırsa diyalog da kapanır, sonraki girişte yeniden açılmaz
+    LaunchedEffect(oturum) { if (oturum == null) hesapSilmeAcik = false }
+    if (hesapSilmeAcik && oturum != null) {
+        HesapSilmeDiyalogu(vm = vm, kapat = { hesapSilmeAcik = false })
+    }
+
     silinecek?.let { kayit ->
         AlertDialog(
             onDismissRequest = { silinecek = null },
@@ -203,7 +215,8 @@ fun AnaEkran(
 private fun HesapMenusu(
     oturum: OturumBilgisi?,
     girisAc: () -> Unit,
-    cikis: () -> Unit
+    cikis: () -> Unit,
+    hesapSil: () -> Unit
 ) {
     var acik by remember { mutableStateOf(false) }
 
@@ -230,6 +243,14 @@ private fun HesapMenusu(
                     onClick = {
                         acik = false
                         cikis()
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.hesabi_sil), color = MaterialTheme.colorScheme.error) },
+                    leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
+                    onClick = {
+                        acik = false
+                        hesapSil()
                     }
                 )
             }

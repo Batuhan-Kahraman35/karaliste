@@ -38,7 +38,7 @@ temp/             Geçici SQL/test dosyaları
 - **Uygulama içi güncelleme:** `/api/surum` → APK indirilir → SHA-256 doğrulanır → `PackageInstaller` oturumu (Android 12+ için `USER_ACTION_NOT_REQUIRED`). Günlük WorkManager kontrolü ve bildirim. `uygulama_min_surum_kodu` altındaki sürümlerde zorunlu güncelleme ekranı.
 - **Tema:** Bivora "03 Orbit" renkleri (`#4B2AE8` → `#FF2E93`, vurgu `#FFC93C`). Dinamik renk kapalı.
 - **Tarih/saat:** DB `GETDATE()` kullanılır (sunucu +03:00). PHP saat dilimi `httpdocs/.user.ini` içinde.
-- **Hız sınırı** (`HizSiniri`): `kayit`, `giris`, `sifre-sifirla-iste`, `sifre-sifirla` için IP ve e-posta bazlı; limitler `HizSinirlari` tablosunda, aşımda 429 + `Retry-After`. Altyapı hatasında istek engellenmez (fail-open, loglanır).
+- **Hız sınırı** (`HizSiniri`): `kayit`, `giris`, `sifre-sifirla-iste`, `sifre-sifirla`, `hesap-sil` için IP ve e-posta bazlı; limitler `HizSinirlari` tablosunda, aşımda 429 + `Retry-After`. Altyapı hatasında istek engellenmez (fail-open, loglanır).
 - **Cloudflare:** Site proxy arkasında, SSL modu **Full (strict)**. Gerçek IP `Istek::ip()`: `REMOTE_ADDR` `GuvenilirProxyler` aralığındaysa `CF-Connecting-IP`, değilse `REMOTE_ADDR`.
 
 ## Veritabanı (MSSQL, `karaliste_DB`)
@@ -56,7 +56,7 @@ Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenArama
 
 ## API (`/api/...`, JSON `{basarili, mesaj?, veri?}`)
 
-`POST kayit`, `POST giris`, `POST cikis`, `POST sifre-sifirla-iste`, `POST sifre-sifirla`, `GET eslesme-tipleri`, `POST senkron` (token gerekir), `GET surum`.
+`POST kayit`, `POST giris`, `POST cikis`, `POST hesap-sil` (token + şifre; tüm veriyi kalıcı siler), `POST sifre-sifirla-iste`, `POST sifre-sifirla`, `GET eslesme-tipleri`, `POST senkron` (token gerekir), `GET surum`.
 
 ## Yeni sürüm yayınlama
 
@@ -84,4 +84,4 @@ Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenArama
 ## Açık işler
 
 - [ ] Uygulama içi güncelleme cihazda çalıştı (1.4.1 yayında, site 2026-10-07'de yayına alındı). Sessiz kurulum (onaysız 2. güncelleme) henüz doğrulanmadı.
-- [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, hesap silme ekranı, yönetim paneli
+- [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, yönetim paneli

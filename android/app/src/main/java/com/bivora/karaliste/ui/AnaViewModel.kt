@@ -167,6 +167,13 @@ class AnaViewModel(uygulama: Application) : AndroidViewModel(uygulama) {
         }
     }
 
+    fun hesapSil(sifre: String, sonuc: (String?) -> Unit) =
+        hesapIslemi(sonuc) {
+            hesap.hesapSil(sifre)
+            mesajGonder(R.string.hesap_silindi)
+            null
+        }
+
     // sonuc: (hata, bilgi)
     fun sifreSifirlaIste(eposta: String, sonuc: (String?, String?) -> Unit) {
         var bilgi: String? = null

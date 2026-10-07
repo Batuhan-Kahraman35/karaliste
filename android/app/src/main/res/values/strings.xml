@@ -50,6 +50,10 @@
     <string name="giris_yapildi">Giriş yapıldı. Liste senkronize ediliyor.</string>
     <string name="kayit_yapildi">Hesabınız oluşturuldu. Liste senkronize ediliyor.</string>
     <string name="cikis_yapildi">Çıkış yapıldı. Liste telefonda kalmaya devam ediyor.</string>
+    <string name="hesabi_sil">Hesabı sil</string>
+    <string name="hesap_sil_aciklama">Hesabınız ve sunucudaki karaliste yedeğiniz kalıcı olarak silinir. Bu işlem geri alınamaz.\n\nTelefondaki listeniz silinmez, uygulamayı üye olmadan kullanmaya devam edebilirsiniz.</string>
+    <string name="hesap_sil_sifre">Onaylamak için şifreniz</string>
+    <string name="hesap_silindi">Hesabınız silindi. Liste telefonda kalmaya devam ediyor.</string>
     <string name="hata_sifre_kisa">Şifre en az %1$d karakter olmalı.</string>
     <string name="hata_sifre_eslesmiyor">Şifreler eşleşmiyor.</string>
 

@@ -99,6 +99,42 @@ final class HesapApi
         Yanit::basarili([], 'Çıkış yapıldı.');
     }
 
+    // Hesap ve hesaba ait tüm veriler kalıcı olarak silinir (KVKK); şifre tekrar istenir
+    public static function hesapSil(): never
+    {
+        $id    = Oturum::dogrula();
+        $sifre = (string) Istek::metin('sifre', true, 255);
+
+        $k = Veritabani::satir(
+            'SELECT Kullanicilar_Eposta, Kullanicilar_SifreHash FROM dbo.Kullanicilar WHERE Kullanicilar_id = ?',
+            [$id]
+        );
+        $eposta = $k['Kullanicilar_Eposta'];
+
+        HizSiniri::kontrol('hesap-sil', $eposta);
+        if (!password_verify($sifre, $k['Kullanicilar_SifreHash'])) {
+            HizSiniri::kaydet('hesap-sil', $eposta, false);
+            // 401 değil: istemci 401'i oturum düşmesi sayar
+            Yanit::hata('Şifre hatalı.', 403);
+        }
+
+        $db = Veritabani::al();
+        $db->beginTransaction();
+        try {
+            Veritabani::calistir('DELETE FROM dbo.Karaliste WHERE Karaliste_Kullanicilar_id = ?', [$id]);
+            Veritabani::calistir('DELETE FROM dbo.SifreSifirlama WHERE SifreSifirlama_Kullanicilar_id = ?', [$id]);
+            Veritabani::calistir('DELETE FROM dbo.Oturumlar WHERE Oturumlar_Kullanicilar_id = ?', [$id]);
+            Veritabani::calistir('DELETE FROM dbo.HizSiniriDenemeleri WHERE HizSiniriDenemeleri_Eposta = ?', [$eposta]);
+            Veritabani::calistir('DELETE FROM dbo.Kullanicilar WHERE Kullanicilar_id = ?', [$id]);
+            $db->commit();
+        } catch (\Throwable $e) {
+            $db->rollBack();
+            throw $e;
+        }
+
+        Yanit::basarili([], 'Hesabınız ve sunucudaki tüm verileriniz silindi.');
+    }
+
     public static function sifreSifirlaIste(): never
     {
         $eposta = self::eposta();

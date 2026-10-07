@@ -15,7 +15,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -230,6 +232,38 @@ private fun EpostaAlani(deger: String, degisti: (String) -> Unit) {
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun HesapSilmeDiyalogu(vm: AnaViewModel, kapat: () -> Unit) {
+    val suruyor by vm.islemSuruyor.collectAsStateWithLifecycle()
+    var sifre by rememberSaveable { mutableStateOf("") }
+    var hata by remember { mutableStateOf<String?>(null) }
+
+    AlertDialog(
+        onDismissRequest = { if (!suruyor) kapat() },
+        title = { Text(stringResource(R.string.hesabi_sil)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(stringResource(R.string.hesap_sil_aciklama))
+                SifreAlani(sifre, stringResource(R.string.hesap_sil_sifre)) { sifre = it; hata = null }
+                HataMetni(hata)
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { vm.hesapSil(sifre) { h -> if (h == null) kapat() else hata = h } },
+                enabled = sifre.isNotBlank() && !suruyor,
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
+            ) {
+                if (suruyor) CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                else Text(stringResource(R.string.hesabi_sil))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = kapat, enabled = !suruyor) { Text(stringResource(R.string.vazgec)) }
+        }
     )
 }
 

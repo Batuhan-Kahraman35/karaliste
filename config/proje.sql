@@ -184,7 +184,8 @@ VALUES
     ('giris',              20, 5,    15, 1, N'Hatalı giriş denemeleri'),
     ('kayit',               5, NULL, 60, 0, N'Yeni hesap oluşturma'),
     ('sifre-sifirla-iste',  5, 3,    60, 0, N'Şifre sıfırlama kodu isteği (e-posta gönderir)'),
-    ('sifre-sifirla',      10, 10,   15, 1, N'Hatalı sıfırlama kodu denemeleri');
+    ('sifre-sifirla',      10, 10,   15, 1, N'Hatalı sıfırlama kodu denemeleri'),
+    ('hesap-sil',          10, 5,    15, 1, N'Hesap silmede hatalı şifre denemeleri');
 
 -- Kaynak: https://www.cloudflare.com/ips-v4 ve /ips-v6 (2026-10-07)
 INSERT INTO [dbo].[GuvenilirProxyler] ([GuvenilirProxyler_Aralik], [GuvenilirProxyler_Saglayici])

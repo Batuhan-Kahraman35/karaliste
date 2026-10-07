@@ -41,6 +41,14 @@ class HesapServisi(context: Context) {
         dao.silinmisleriTemizle()
     }
 
+    // Sunucu silmeyi onaylarsa yerel oturum kapanır; liste telefonda kalır
+    suspend fun hesapSil(sifre: String) {
+        val token = oturum.token ?: return
+        ApiIstemci.istek("hesap-sil", JSONObject().put("sifre", sifre), token)
+        oturum.temizle()
+        dao.silinmisleriTemizle()
+    }
+
     suspend fun sifreSifirlaIste(eposta: String): String? =
         ApiIstemci.istek("sifre-sifirla-iste", JSONObject().put("eposta", eposta)).metinVeyaNull("mesaj")
 

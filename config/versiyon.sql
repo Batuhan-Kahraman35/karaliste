@@ -60,3 +60,16 @@ GO
 --  * Ayarlar: hiz_siniri_saklama_gun
 --  CREATE ve başlangıç verileri: config/proje.sql (HizSinirlari, HizSiniriDenemeleri, GuvenilirProxyler)
 -- ============================================================
+
+-- ============================================================
+-- Versiyon 1.2.1 - 2026-10-07
+-- Uygulama içi hesap silme (POST /api/hesap-sil): hız sınırı tanımı
+-- ============================================================
+USE [karaliste_DB];
+GO
+
+IF NOT EXISTS (SELECT 1 FROM [dbo].[HizSinirlari] WHERE [HizSinirlari_Islem] = 'hesap-sil')
+    INSERT INTO [dbo].[HizSinirlari]
+        ([HizSinirlari_Islem], [HizSinirlari_IpLimit], [HizSinirlari_EpostaLimit], [HizSinirlari_PencereDakika], [HizSinirlari_SadeceHatali], [HizSinirlari_Aciklama])
+    VALUES ('hesap-sil', 10, 5, 15, 1, N'Hesap silmede hatalı şifre denemeleri');
+GO

@@ -41,7 +41,7 @@ Sablon::ust('Gizlilik Politikası · Karaliste', 'Karaliste uygulamasının kiş
         <li><strong>Karaliste:</strong> karalisteye eklediğiniz numaralar, numara başlangıçları ve desenler, açıklamalarınız, açık/kapalı durumları.</li>
         <li><strong>Oturum bilgileri:</strong> giriş yaptığınız cihazın marka ve modeli, giriş ve son erişim zamanları.</li>
         <li><strong>Şifre sıfırlama:</strong> e-postanıza gönderilen doğrulama kodunun geri döndürülemez özeti ve geçerlilik süresi.</li>
-        <li><strong>Güvenlik kayıtları:</strong> giriş, kayıt ve şifre sıfırlama denemelerinde IP adresi, girilen e-posta adresi ve denemenin sonucu. Bu kayıtlar yalnızca izinsiz giriş denemelerini engellemek için kullanılır ve <?= Sablon::e((string) $saklamaGun) ?> gün sonra otomatik olarak silinir.</li>
+        <li><strong>Güvenlik kayıtları:</strong> giriş, kayıt, şifre sıfırlama ve hesap silme denemelerinde IP adresi, girilen e-posta adresi ve denemenin sonucu. Bu kayıtlar yalnızca izinsiz giriş denemelerini engellemek için kullanılır ve <?= Sablon::e((string) $saklamaGun) ?> gün sonra otomatik olarak silinir.</li>
     </ul>
 
     <h2>5. İşleme amaçları ve hukuki sebep</h2>
@@ -61,16 +61,17 @@ Sablon::ust('Gizlilik Politikası · Karaliste', 'Karaliste uygulamasının kiş
     </ul>
 
     <h2>8. Saklama süresi</h2>
-    <p>Verileriniz hesabınız açık kaldığı sürece saklanır. Hesabınızın silinmesini talep ettiğinizde hesabınıza ait tüm veriler kalıcı olarak silinir. Uygulamada oturumu kapatmanız sunucudaki verileri silmez.</p>
+    <p>Verileriniz hesabınız açık kaldığı sürece saklanır. Hesabınızı sildiğinizde hesabınıza ait tüm veriler (hesap bilgileri, karaliste yedeği, oturumlar ve güvenlik kayıtları) sunucudan anında ve kalıcı olarak silinir. Uygulamada oturumu kapatmanız sunucudaki verileri silmez.</p>
 
     <h2>9. Haklarınız</h2>
     <p>KVKK madde 11 uyarınca; verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini veya silinmesini isteme ve işlemeye itiraz etme haklarına sahipsiniz.</p>
 
     <h2>10. İletişim ve hesap silme</h2>
+    <p>Hesabınızı uygulama içinden kendiniz silebilirsiniz: sağ üstteki <strong>hesap simgesi → Hesabı sil</strong> seçeneğine dokunup şifrenizle onaylayın. Telefonunuzdaki liste silinmez.</p>
     <?php if ($iletisim): ?>
-        <p>Haklarınızı kullanmak veya hesabınızın silinmesini talep etmek için kayıtlı e-posta adresinizden <a href="mailto:<?= Sablon::e($iletisim) ?>"><?= Sablon::e($iletisim) ?></a> adresine yazabilirsiniz.</p>
+        <p>Diğer haklarınızı kullanmak veya uygulamaya erişemiyorsanız hesabınızın silinmesini talep etmek için kayıtlı e-posta adresinizden <a href="mailto:<?= Sablon::e($iletisim) ?>"><?= Sablon::e($iletisim) ?></a> adresine yazabilirsiniz.</p>
     <?php else: ?>
-        <p>Haklarınızı kullanmak veya hesabınızın silinmesini talep etmek için kayıtlı e-posta adresinizden bizimle iletişime geçebilirsiniz.</p>
+        <p>Diğer haklarınızı kullanmak veya uygulamaya erişemiyorsanız hesabınızın silinmesini talep etmek için kayıtlı e-posta adresinizden bizimle iletişime geçebilirsiniz.</p>
     <?php endif; ?>
 </article>
 

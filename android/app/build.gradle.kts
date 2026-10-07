@@ -15,8 +15,8 @@ android {
         applicationId = "com.bivora.karaliste"
         minSdk = 29
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.4.1"
+        versionCode = 7
+        versionName = "1.5.0"
 
         buildConfigField("String", "API_ADRES", "\"https://karaliste.bivora.com.tr/api/\"")
     }

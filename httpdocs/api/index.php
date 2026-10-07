@@ -19,6 +19,7 @@ $rotalar = [
     'POST kayit'              => [HesapApi::class, 'kayit'],
     'POST giris'              => [HesapApi::class, 'giris'],
     'POST cikis'              => [HesapApi::class, 'cikis'],
+    'POST hesap-sil'          => [HesapApi::class, 'hesapSil'],
     'POST sifre-sifirla-iste' => [HesapApi::class, 'sifreSifirlaIste'],
     'POST sifre-sifirla'      => [HesapApi::class, 'sifreSifirla'],
     'GET eslesme-tipleri'     => [KaralisteApi::class, 'eslesmeTipleri'],
