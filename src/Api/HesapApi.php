@@ -5,6 +5,7 @@ namespace Karaliste\Api;
 
 use Karaliste\Ayarlar;
 use Karaliste\Eposta;
+use Karaliste\HizSiniri;
 use Karaliste\Istek;
 use Karaliste\Oturum;
 use Karaliste\Veritabani;
@@ -25,6 +26,9 @@ final class HesapApi
         $sifre   = self::yeniSifre('sifre');
         $adSoyad = Istek::metin('adSoyad', false, 150);
         $cihaz   = Istek::metin('cihazAdi', false, 150);
+
+        HizSiniri::kontrol('kayit', $eposta);
+        HizSiniri::kaydet('kayit', $eposta, false);
 
         if (self::kullanici($eposta) !== null) {
             Yanit::hata('Bu e-posta adresiyle zaten bir hesap var.', 409);
@@ -59,12 +63,16 @@ final class HesapApi
         $sifre  = (string) Istek::metin('sifre', true, 255);
         $cihaz  = Istek::metin('cihazAdi', false, 150);
 
+        HizSiniri::kontrol('giris', $eposta);
+
         $k = self::kullanici($eposta);
         // Kullanıcı yoksa da hash doğrulaması yapılır; yanıt süresi e-postanın varlığını ele vermez
         $hash = $k['Kullanicilar_SifreHash'] ?? self::SAHTE_HASH;
         if (!password_verify($sifre, $hash) || $k === null) {
+            HizSiniri::kaydet('giris', $eposta, false);
             Yanit::hata('E-posta veya şifre hatalı.', 401);
         }
+        HizSiniri::kaydet('giris', $eposta, true);
         if (!$k['Durum']) {
             Yanit::hata('Hesabınız pasif durumda.', 403);
         }
@@ -94,6 +102,8 @@ final class HesapApi
     public static function sifreSifirlaIste(): never
     {
         $eposta = self::eposta();
+        HizSiniri::kontrol('sifre-sifirla-iste', $eposta);
+        HizSiniri::kaydet('sifre-sifirla-iste', $eposta, true);
         $k = self::kullanici($eposta);
 
         // Kayıtlı olmayan e-posta için de aynı yanıt döner
@@ -150,8 +160,11 @@ final class HesapApi
         $kod    = (string) Istek::metin('kod', true, 6);
         $yeni   = self::yeniSifre('yeniSifre');
 
+        HizSiniri::kontrol('sifre-sifirla', $eposta);
+
         $k = self::kullanici($eposta);
         if ($k === null || !$k['Durum']) {
+            HizSiniri::kaydet('sifre-sifirla', $eposta, false);
             Yanit::hata(self::KOD_HATA_MESAJI);
         }
         $id = (int) $k['Kullanicilar_id'];
@@ -165,6 +178,7 @@ final class HesapApi
             [$id]
         );
         if ($s === null) {
+            HizSiniri::kaydet('sifre-sifirla', $eposta, false);
             Yanit::hata(self::KOD_HATA_MESAJI);
         }
 
@@ -178,6 +192,7 @@ final class HesapApi
                  WHERE SifreSifirlama_id = ?',
                 [$s['SifreSifirlama_id']]
             );
+            HizSiniri::kaydet('sifre-sifirla', $eposta, false);
             Yanit::hata(self::KOD_HATA_MESAJI);
         }
 
@@ -202,6 +217,7 @@ final class HesapApi
             throw $e;
         }
 
+        HizSiniri::kaydet('sifre-sifirla', $eposta, true);
         Yanit::basarili([], 'Şifreniz değiştirildi. Yeni şifrenizle giriş yapabilirsiniz.');
     }
 

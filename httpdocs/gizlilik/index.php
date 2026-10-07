@@ -11,6 +11,7 @@ $veriSorumlusu = Sablon::ayar('veri_sorumlusu') ?? 'Bivora';
 $iletisim      = Sablon::ayar('iletisim_eposta');
 $guncelleme    = Sablon::tarih(Sablon::ayar('gizlilik_guncelleme_tarihi'));
 $github        = Sablon::ayar('github_adres');
+$saklamaGun    = (int) (Sablon::ayar('hiz_siniri_saklama_gun') ?? 7);
 
 Sablon::ust('Gizlilik Politikası · Karaliste', 'Karaliste uygulamasının kişisel verileri nasıl işlediğine dair gizlilik politikası.');
 ?>
@@ -40,6 +41,7 @@ Sablon::ust('Gizlilik Politikası · Karaliste', 'Karaliste uygulamasının kiş
         <li><strong>Karaliste:</strong> karalisteye eklediğiniz numaralar, numara başlangıçları ve desenler, açıklamalarınız, açık/kapalı durumları.</li>
         <li><strong>Oturum bilgileri:</strong> giriş yaptığınız cihazın marka ve modeli, giriş ve son erişim zamanları.</li>
         <li><strong>Şifre sıfırlama:</strong> e-postanıza gönderilen doğrulama kodunun geri döndürülemez özeti ve geçerlilik süresi.</li>
+        <li><strong>Güvenlik kayıtları:</strong> giriş, kayıt ve şifre sıfırlama denemelerinde IP adresi, girilen e-posta adresi ve denemenin sonucu. Bu kayıtlar yalnızca izinsiz giriş denemelerini engellemek için kullanılır ve <?= Sablon::e((string) $saklamaGun) ?> gün sonra otomatik olarak silinir.</li>
     </ul>
 
     <h2>5. İşleme amaçları ve hukuki sebep</h2>

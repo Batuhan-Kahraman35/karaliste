@@ -49,3 +49,14 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[Ayarlar] WHERE [Ayarlar_Anahtar] = 'github_a
     INSERT INTO [dbo].[Ayarlar] ([Ayarlar_Anahtar], [Ayarlar_Deger], [Ayarlar_Aciklama])
     VALUES ('github_adres', N'https://github.com/Batuhan-Kahraman35/karaliste', N'Kaynak kod deposu; CHANGE_ME iken sitede bağlantı görünmez');
 GO
+
+-- ============================================================
+-- Versiyon 1.2.0 - 2026-10-07
+-- Hız sınırı (rate limit) ve Cloudflare gerçek IP desteği
+--  * HizSinirlari (tanım): işlem bazlı IP / e-posta limiti ve pencere
+--  * HizSiniriDenemeleri (hareket): deneme kayıtları, hiz_siniri_saklama_gun sonra silinir
+--  * GuvenilirProxyler (tanım): Cloudflare IP aralıkları; yalnızca bunlardan gelen
+--    isteklerde CF-Connecting-IP başlığına güvenilir
+--  * Ayarlar: hiz_siniri_saklama_gun
+--  CREATE ve başlangıç verileri: config/proje.sql (HizSinirlari, HizSiniriDenemeleri, GuvenilirProxyler)
+-- ============================================================

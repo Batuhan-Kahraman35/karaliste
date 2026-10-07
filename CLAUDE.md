@@ -38,14 +38,16 @@ temp/             Geçici SQL/test dosyaları
 - **Uygulama içi güncelleme:** `/api/surum` → APK indirilir → SHA-256 doğrulanır → `PackageInstaller` oturumu (Android 12+ için `USER_ACTION_NOT_REQUIRED`). Günlük WorkManager kontrolü ve bildirim. `uygulama_min_surum_kodu` altındaki sürümlerde zorunlu güncelleme ekranı.
 - **Tema:** Bivora "03 Orbit" renkleri (`#4B2AE8` → `#FF2E93`, vurgu `#FFC93C`). Dinamik renk kapalı.
 - **Tarih/saat:** DB `GETDATE()` kullanılır (sunucu +03:00). PHP saat dilimi `httpdocs/.user.ini` içinde.
+- **Hız sınırı** (`HizSiniri`): `kayit`, `giris`, `sifre-sifirla-iste`, `sifre-sifirla` için IP ve e-posta bazlı; limitler `HizSinirlari` tablosunda, aşımda 429 + `Retry-After`. Altyapı hatasında istek engellenmez (fail-open, loglanır).
+- **Cloudflare:** Site proxy arkasında, SSL modu **Full (strict)**. Gerçek IP `Istek::ip()`: `REMOTE_ADDR` `GuvenilirProxyler` aralığındaysa `CF-Connecting-IP`, değilse `REMOTE_ADDR`.
 
 ## Veritabanı (MSSQL, `karaliste_DB`)
 
-Tablolar: `Ayarlar`, `Kullanicilar`, `Oturumlar`, `SifreSifirlama`, `EslesmeTipleri`, `Karaliste`. Şema: `config/proje.sql`.
+Tablolar: `Ayarlar`, `Kullanicilar`, `Oturumlar`, `SifreSifirlama`, `EslesmeTipleri`, `Karaliste`, `HizSinirlari`, `HizSiniriDenemeleri`, `GuvenilirProxyler`. Şema: `config/proje.sql`.
 
 `Ayarlar` anahtarları:
 - SMTP: `smtp_sunucu`, `smtp_port`, `smtp_guvenlik`, `smtp_kullanici`, `smtp_sifre`, `smtp_gonderen`, `smtp_gonderen_ad`
-- Güvenlik: `oturum_gecerlilik_gun`, `sifirlama_kod_dakika`, `sifirlama_max_deneme`
+- Güvenlik: `oturum_gecerlilik_gun`, `sifirlama_kod_dakika`, `sifirlama_max_deneme`, `hiz_siniri_saklama_gun`
 - Sürüm: `uygulama_surum`, `uygulama_surum_kodu`, `uygulama_min_surum_kodu`, `uygulama_surum_notlari` (satır başına bir madde), `uygulama_surum_tarihi`, `uygulama_apk_dosya`, `uygulama_min_android`
 - Site: `site_indirme_acik` (1 = sitede indirme butonu), `github_adres` (alt bilgi ve gizlilik sayfasındaki kaynak kod bağlantısı), `gizlilik_guncelleme_tarihi`, `veri_sorumlusu`, `iletisim_eposta`
 - Değeri `CHANGE_ME` olan ayar sitede doldurulmamış sayılır.
@@ -75,9 +77,12 @@ Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenArama
 - IIS varsayılan belge sırası `index.html` dosyasını `index.php`'den önce açar; `httpdocs` içinde `index.html` olmamalı.
 - Android `org.json` null değerini `"null"` metni olarak döndürür: `metinVeyaNull()` yardımcısını kullan.
 - Proje klasörünün sahibi Plesk kullanıcısı: git için `safe.directory` tanımlı.
+- Cloudflare SSL modu **Flexible** yapılırsa Plesk'in HTTP→HTTPS yönlendirmesi sonsuz döngüye girer (site kapanır). Mod zone geneli: tüm bivora.com.tr alt alan adlarını etkiler.
+- Sunucu kendi alan adını Cloudflare yerine kendi IP'sine çözer; sunucudan Cloudflare üzerinden test için `curl --resolve karaliste.bivora.com.tr:443:188.114.96.7` kullan.
+- Cloudflare IP aralıkları değişirse `GuvenilirProxyler` güncellenmeli (kaynak: cloudflare.com/ips-v4, /ips-v6); yoksa o aralıktan gelen tüm kullanıcılar tek IP sayılır.
 
 ## Açık işler
 
 - [ ] Uygulama içi güncelleme cihazda çalıştı (1.4.1 yayında, site 2026-10-07'de yayına alındı). Sessiz kurulum (onaysız 2. güncelleme) henüz doğrulanmadı.
 - [ ] `surumler/` altındaki eski APK'lar (1.2.0, 1.3.0) silinebilir
-- [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, giriş için hız sınırlama (rate limit), hesap silme ekranı, yönetim paneli
+- [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, hesap silme ekranı, yönetim paneli
