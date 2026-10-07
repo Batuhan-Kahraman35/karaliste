@@ -33,6 +33,7 @@ temp/             Geçici SQL/test dosyaları
 - **Numara sadeleştirme** (`NumaraYardimci`): `00`, baştaki `0` ve `90` ülke kodu atılır → TR numarası 10 hane. Desen eşleşmesi SQLite `GLOB` ile.
 - **Üyelik isteğe bağlı:** Üye değilse liste yalnızca cihazda. Giriş yapınca yerel liste hesaba yüklenir, çıkışta liste cihazda kalır.
 - **Senkron:** Kayıtlar `Guid` ile eşleşir. Silme `Silindi` işaretiyle (tombstone) yapılır. İstemci yalnızca `Senkronlandi = 0` olanları gönderir. Sunucu `sonSenkron` sonrası değişenleri döner, `sunucuZamani` değişiklikler yazılmadan önce alınır. Aynı numara+tip başka bir guid ile gelirse sunucu kopyayı `silindi` olarak yazar ve istemci kendi kopyasını siler.
+- **Güvenilen numaralar** (`Karaliste_Izinli = 1`): aynı tablo ve aynı eşleştirme tipleri. Servis önce güvenilenlere bakar; eşleşirse arama geçer ve engellenenler kaydına yazılmaz. Senkron: güvenilen kayıtlar yalnızca `izinliDestegi: true` gönderen istemcilere (APK 1.6.0+) döner; istemci `izinli` alanını göndermezse sunucu mevcut değeri korur.
 - **Engellenen aramalar** yalnızca cihazda tutulur (son 1000 kayıt), sunucuya asla gönderilmez. Gizlilik metni buna dayanıyor.
 - **Kimlik doğrulama:** Bearer token (64 hex). DB'de yalnızca SHA-256 hash'i tutulur. Şifreler ve sıfırlama kodları bcrypt ile saklanır. Token cihazda `EncryptedSharedPreferences` ile şifreli tutulur.
 - **Uygulama içi güncelleme:** `/api/surum` → APK indirilir → SHA-256 doğrulanır → `PackageInstaller` oturumu (Android 12+ için `USER_ACTION_NOT_REQUIRED`). Günlük WorkManager kontrolü ve bildirim. `uygulama_min_surum_kodu` altındaki sürümlerde zorunlu güncelleme ekranı.
@@ -52,7 +53,7 @@ Tablolar: `Ayarlar`, `Kullanicilar`, `Oturumlar`, `SifreSifirlama`, `EslesmeTipl
 - Site: `site_indirme_acik` (1 = sitede indirme butonu), `github_adres` (alt bilgi ve gizlilik sayfasındaki kaynak kod bağlantısı), `gizlilik_guncelleme_tarihi`, `veri_sorumlusu`, `iletisim_eposta`
 - Değeri `CHANGE_ME` olan ayar sitede doldurulmamış sayılır.
 
-Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenAramalar`. Geçişler `VeriTabani.kt` içinde (1→2→3→4). Şema değişirse yeni `Migration` yazılmalı, `fallbackToDestructiveMigration` kullanılmaz.
+Android yerel Room DB sürüm 5: `Karaliste`, `EslesmeTipleri`, `EngellenenAramalar`. Geçişler `VeriTabani.kt` içinde (1→2→3→4→5). Şema değişirse yeni `Migration` yazılmalı, `fallbackToDestructiveMigration` kullanılmaz.
 
 ## API (`/api/...`, JSON `{basarili, mesaj?, veri?}`)
 

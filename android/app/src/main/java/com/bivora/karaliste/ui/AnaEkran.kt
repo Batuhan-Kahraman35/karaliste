@@ -72,9 +72,11 @@ fun AnaEkran(
     rolIste: () -> Unit,
     girisAc: () -> Unit,
     guncelle: () -> Unit,
-    altMenu: @Composable () -> Unit
+    altMenu: @Composable () -> Unit,
+    // true: güvenilen numaralar listesi; aynı ekran iki liste için kullanılır
+    izinli: Boolean = false
 ) {
-    val liste by vm.liste.collectAsStateWithLifecycle()
+    val liste by (if (izinli) vm.guvenilenler else vm.liste).collectAsStateWithLifecycle()
     val guncellemeDurumu by vm.guncellemeDurumu.collectAsStateWithLifecycle()
     val tipler by vm.eslesmeTipleri.collectAsStateWithLifecycle()
     val oturum by vm.oturum.collectAsStateWithLifecycle()
@@ -102,7 +104,7 @@ fun AnaEkran(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) },
+                title = { Text(stringResource(if (izinli) R.string.guvenilen_baslik else R.string.app_name)) },
                 actions = {
                     if (oturum != null) {
                         IconButton(onClick = { vm.senkronIste(elle = true) }, enabled = !senkronCalisiyor) {
@@ -138,6 +140,15 @@ fun AnaEkran(
                 RolUyarisi(rolIste)
             }
 
+            if (izinli) {
+                Text(
+                    text = stringResource(R.string.guvenilen_aciklama),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                )
+            }
+
             OutlinedTextField(
                 value = arama,
                 onValueChange = { arama = it },
@@ -155,7 +166,13 @@ fun AnaEkran(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(if (liste.isEmpty()) R.string.liste_bos else R.string.sonuc_yok),
+                        text = stringResource(
+                            when {
+                                liste.isNotEmpty() -> R.string.sonuc_yok
+                                izinli -> R.string.guvenilen_bos
+                                else -> R.string.liste_bos
+                            }
+                        ),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -178,10 +195,11 @@ fun AnaEkran(
 
     if (eklemeAcik) {
         EklemeDiyalogu(
+            baslik = stringResource(if (izinli) R.string.guvenilen_ekle else R.string.numara_ekle),
             tipler = tipler,
             kapat = { eklemeAcik = false },
             kaydet = { numara, aciklama, tipId ->
-                vm.ekle(numara, aciklama, tipId)
+                vm.ekle(numara, aciklama, tipId, izinli)
                 eklemeAcik = false
             }
         )
@@ -197,7 +215,7 @@ fun AnaEkran(
         AlertDialog(
             onDismissRequest = { silinecek = null },
             title = { Text(stringResource(R.string.sil_baslik)) },
-            text = { Text(stringResource(R.string.sil_onay, kayit.gorunenNumara)) },
+            text = { Text(stringResource(if (kayit.izinli) R.string.guvenilen_sil_onay else R.string.sil_onay, kayit.gorunenNumara)) },
             confirmButton = {
                 TextButton(onClick = {
                     vm.sil(kayit)
@@ -312,6 +330,7 @@ private fun KaralisteSatiri(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EklemeDiyalogu(
+    baslik: String,
     tipler: List<EslesmeTipi>,
     kapat: () -> Unit,
     kaydet: (String, String, Int) -> Unit
@@ -323,7 +342,7 @@ private fun EklemeDiyalogu(
 
     AlertDialog(
         onDismissRequest = kapat,
-        title = { Text(stringResource(R.string.numara_ekle)) },
+        title = { Text(baslik) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {

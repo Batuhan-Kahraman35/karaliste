@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Karaliste::class, EslesmeTipi::class, EngellenenArama::class], version = 4, exportSchema = false)
+@Database(entities = [Karaliste::class, EslesmeTipi::class, EngellenenArama::class], version = 5, exportSchema = false)
 abstract class VeriTabani : RoomDatabase() {
 
     abstract fun karalisteDao(): KaralisteDao
@@ -24,7 +24,7 @@ abstract class VeriTabani : RoomDatabase() {
                     VeriTabani::class.java,
                     "karaliste.db"
                 )
-                    .addMigrations(GOC_1_2, GOC_2_3, GOC_3_4)
+                    .addMigrations(GOC_1_2, GOC_2_3, GOC_3_4, GOC_4_5)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) = eslesmeTipleriniDoldur(db)
                     })
@@ -138,6 +138,13 @@ abstract class VeriTabani : RoomDatabase() {
                     "CREATE INDEX IF NOT EXISTS `index_EngellenenAramalar_EngellenenAramalar_Tarih` " +
                         "ON `EngellenenAramalar` (`EngellenenAramalar_Tarih`)"
                 )
+            }
+        }
+
+        // Güvenilen numaralar: mevcut kayıtların hepsi engelleme kuralı olarak kalır
+        private val GOC_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `Karaliste` ADD COLUMN `Karaliste_Izinli` INTEGER NOT NULL DEFAULT 0")
             }
         }
     }

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface KaralisteDao {
 
-    @Query("SELECT * FROM Karaliste WHERE Karaliste_Silindi = 0 ORDER BY OlusturmaTarihi DESC")
-    fun tumu(): Flow<List<Karaliste>>
+    @Query("SELECT * FROM Karaliste WHERE Karaliste_Silindi = 0 AND Karaliste_Izinli = :izinli ORDER BY OlusturmaTarihi DESC")
+    fun tumu(izinli: Boolean): Flow<List<Karaliste>>
 
     @Query("SELECT * FROM EslesmeTipleri WHERE Durum = 1 ORDER BY EslesmeTipleri_Sira")
     fun eslesmeTipleri(): Flow<List<EslesmeTipi>>
@@ -20,11 +20,11 @@ interface KaralisteDao {
     suspend fun eslesmeTipleriniKaydet(tipler: List<EslesmeTipi>)
 
     // TAM: birebir, ONEK: numara kayıtla başlar, DESEN: GLOB ile ? = tek rakam.
-    // Birden fazla kural eşleşirse en belirgini (önce tam numara) döner.
+    // Birden fazla kural eşleşirse en belirgini (önce tam numara) döner. izinli: güvenilenler mi, karaliste mi.
     @Query(
         """
         SELECT * FROM Karaliste
-        WHERE Durum = 1 AND Karaliste_Silindi = 0 AND (
+        WHERE Durum = 1 AND Karaliste_Silindi = 0 AND Karaliste_Izinli = :izinli AND (
                (Karaliste_EslesmeTipi_id = ${EslesmeTipi.TAM}   AND Karaliste_Numara = :numara)
             OR (Karaliste_EslesmeTipi_id = ${EslesmeTipi.ONEK}  AND substr(:numara, 1, length(Karaliste_Numara)) = Karaliste_Numara)
             OR (Karaliste_EslesmeTipi_id = ${EslesmeTipi.DESEN} AND :numara GLOB Karaliste_Numara)
@@ -33,7 +33,7 @@ interface KaralisteDao {
         LIMIT 1
         """
     )
-    suspend fun eslesenKural(numara: String): Karaliste?
+    suspend fun eslesenKural(numara: String, izinli: Boolean): Karaliste?
 
     @Query("SELECT EXISTS(SELECT 1 FROM Karaliste WHERE Karaliste_Numara = :numara AND Karaliste_EslesmeTipi_id = :tipId AND Karaliste_Silindi = 0)")
     suspend fun ayniVarMi(numara: String, tipId: Int): Boolean

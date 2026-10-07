@@ -24,7 +24,7 @@
     <string name="basarili_eklendi">Numara karalisteye eklendi.</string>
     <string name="basarili_silindi">Numara karalisteden silindi.</string>
     <string name="hata_gecersiz_numara">Geçerli bir numara girin.</string>
-    <string name="hata_numara_var">Bu numara zaten karalistede.</string>
+    <string name="hata_numara_var">Bu numara zaten listede (karaliste veya güvenilenler).</string>
     <string name="hata_desen_joker">Desende en az bir ? (veya x, *) olmalı.</string>
     <string name="hata_desen_uzunluk">Desen, baştaki 0 hariç 10 haneli olmalı. Örnek: 0850 ??? 0971</string>
 
@@ -56,6 +56,16 @@
     <string name="hesap_silindi">Hesabınız silindi. Liste telefonda kalmaya devam ediyor.</string>
     <string name="hata_sifre_kisa">Şifre en az %1$d karakter olmalı.</string>
     <string name="hata_sifre_eslesmiyor">Şifreler eşleşmiyor.</string>
+
+    <!-- Güvenilen numaralar -->
+    <string name="menu_guvenilenler">Güvenilen</string>
+    <string name="guvenilen_baslik">Güvenilen numaralar</string>
+    <string name="guvenilen_aciklama">Buradaki numaralar karalistedeki bir kurala uysa bile her zaman arayabilir. Örneğin 0850 ile başlayanları engelleyip kargo firmanızın 0850 numarasını buraya ekleyebilirsiniz.</string>
+    <string name="guvenilen_bos">Güvenilen numara yok. Eklemek için + butonuna dokunun.</string>
+    <string name="guvenilen_ekle">Güvenilen numara ekle</string>
+    <string name="guvenilen_eklendi">Numara güvenilenlere eklendi.</string>
+    <string name="guvenilen_silindi">Numara güvenilenlerden çıkarıldı.</string>
+    <string name="guvenilen_sil_onay">%1$s güvenilenlerden çıkarılsın mı?</string>
 
     <!-- Engellenen aramalar -->
     <string name="menu_karaliste">Karaliste</string>

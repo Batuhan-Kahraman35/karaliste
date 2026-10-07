@@ -24,6 +24,8 @@ data class Karaliste(
     @ColumnInfo(name = "Karaliste_GorunenNumara") val gorunenNumara: String,
     @ColumnInfo(name = "Karaliste_EslesmeTipi_id", defaultValue = "1") val eslesmeTipiId: Int = EslesmeTipi.TAM,
     @ColumnInfo(name = "Karaliste_Aciklama") val aciklama: String? = null,
+    // true: güvenilen numara; eşleşirse engelleme kuralları hiç kontrol edilmez
+    @ColumnInfo(name = "Karaliste_Izinli", defaultValue = "0") val izinli: Boolean = false,
     // Üyelikte silinen kayıt sunucuya iletilene kadar işaretli tutulur
     @ColumnInfo(name = "Karaliste_Silindi", defaultValue = "0") val silindi: Boolean = false,
     @ColumnInfo(name = "Karaliste_Senkronlandi", defaultValue = "0") val senkronlandi: Boolean = false,
@@ -39,6 +41,7 @@ data class Karaliste(
         .put("gorunenNumara", gorunenNumara)
         .put("eslesmeTipiId", eslesmeTipiId)
         .put("aciklama", aciklama ?: JSONObject.NULL)
+        .put("izinli", izinli)
         .put("durum", durum)
         .put("silindi", silindi)
 }

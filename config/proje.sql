@@ -99,6 +99,7 @@ CREATE TABLE [dbo].[Karaliste] (
     [Karaliste_GorunenNumara]     NVARCHAR(50)       NOT NULL,
     [Karaliste_EslesmeTipi_id]    INT                NOT NULL CONSTRAINT [DF_Karaliste_EslesmeTipi_id] DEFAULT (1),
     [Karaliste_Aciklama]          NVARCHAR(255)      NULL,
+    [Karaliste_Izinli]            BIT                NOT NULL CONSTRAINT [DF_Karaliste_Izinli] DEFAULT (0),   -- 1: güvenilen numara
     [Karaliste_Silindi]           BIT                NOT NULL CONSTRAINT [DF_Karaliste_Silindi] DEFAULT (0),
     [OlusturanKullanici]          INT                NULL,
     [OlusturmaTarihi]             DATETIME           NOT NULL CONSTRAINT [DF_Karaliste_OlusturmaTarihi] DEFAULT (GETDATE()),

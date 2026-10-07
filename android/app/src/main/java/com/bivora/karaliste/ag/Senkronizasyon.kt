@@ -41,6 +41,8 @@ class Senkronizasyon private constructor(private val context: Context) {
             val gidenler = dao.senkronlanmamislar()
             val govde = JSONObject()
                 .put("sonSenkron", oturum.sonSenkron ?: JSONObject.NULL)
+                // Sunucu güvenilen kayıtları yalnızca bunu bildiren istemcilere gönderir
+                .put("izinliDestegi", true)
                 .put("degisiklikler", JSONArray().apply { gidenler.forEach { put(it.json()) } })
 
             val veri = ApiIstemci.istek("senkron", govde, token).getJSONObject("veri")
@@ -102,6 +104,7 @@ class Senkronizasyon private constructor(private val context: Context) {
             gorunenNumara = j.getString("gorunenNumara"),
             eslesmeTipiId = j.getInt("eslesmeTipiId"),
             aciklama = j.metinVeyaNull("aciklama"),
+            izinli = j.optBoolean("izinli", false),
             durum = j.getBoolean("durum"),
             silindi = false,
             senkronlandi = true,

@@ -155,6 +155,10 @@ Sablon::ust(
     <div class="kap dar">
         <h2>Sık sorulanlar</h2>
         <details>
+            <summary>0850'leri engelledim ama birinden aranmak istiyorum.</summary>
+            <p><strong>Güvenilen</strong> sekmesine o numarayı ekleyin. Güvenilen bir numara karalistedeki bir kurala uysa bile her zaman arayabilir. Örneğin <code>0850</code> ile başlayanları engelleyip kargo firmanızın <code>0850 473 73 00</code> numarasını güvenilenlere ekleyebilirsiniz. Güvenilen listede de başlangıç ve desen kullanılabilir.</p>
+        </details>
+        <details>
             <summary>Rehberimdeki bir numarayı engelleyemiyorum, neden?</summary>
             <p>Android, rehberde kayıtlı numaralardan gelen aramaları filtreleme uygulamalarına hiç göstermez. Bu numarayı engellemek için önce rehberden silmeniz gerekiyor.</p>
         </details>

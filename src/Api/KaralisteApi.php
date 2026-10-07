@@ -31,8 +31,10 @@ final class KaralisteApi
     }
 
     /*
-     * İstek:  { "sonSenkron": "2026-10-06 18:31:53.343" | null,
-     *           "degisiklikler": [ { guid, numara, gorunenNumara, eslesmeTipiId, aciklama, durum, silindi } ] }
+     * İstek:  { "sonSenkron": "2026-10-06 18:31:53.343" | null, "izinliDestegi": true,
+     *           "degisiklikler": [ { guid, numara, gorunenNumara, eslesmeTipiId, aciklama, izinli?, durum, silindi } ] }
+     * izinliDestegi göndermeyen eski istemciler (APK < 1.6.0) güvenilen kayıtları almaz; aksi halde
+     * bunları engelleme kuralı olarak kaydederlerdi. Gönderdikleri kayıtta "izinli" yoksa mevcut değer korunur.
      * Yanıt:  { sunucuZamani, kayitlar: [...], hatalar: [ { guid, mesaj } ] }
      * İstemci bir sonraki istekte sonSenkron = sunucuZamani gönderir.
      */
@@ -42,6 +44,7 @@ final class KaralisteApi
         $govde = Istek::govde();
 
         $sonSenkron = $govde['sonSenkron'] ?? null;
+        $izinliDestegi = ($govde['izinliDestegi'] ?? false) === true;
         if (!is_string($sonSenkron) || !preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,3})?$/', $sonSenkron)) {
             $sonSenkron = null;
         }
@@ -80,11 +83,14 @@ final class KaralisteApi
         }
 
         $sql = 'SELECT LOWER(CONVERT(VARCHAR(36), Karaliste_Guid)) AS guid, Karaliste_Numara, Karaliste_GorunenNumara,
-                       Karaliste_EslesmeTipi_id, Karaliste_Aciklama, Durum, Karaliste_Silindi,
+                       Karaliste_EslesmeTipi_id, Karaliste_Aciklama, Karaliste_Izinli, Durum, Karaliste_Silindi,
                        CONVERT(VARCHAR(23), GuncellemeTarihi, 121) AS guncellemeTarihi
                 FROM dbo.Karaliste
                 WHERE Karaliste_Kullanicilar_id = ?';
         $parametreler = [$kullaniciId];
+        if (!$izinliDestegi) {
+            $sql .= ' AND Karaliste_Izinli = 0';
+        }
         if ($sonSenkron !== null) {
             $sql .= ' AND GuncellemeTarihi >= CONVERT(DATETIME, ?, 121)';
             $parametreler[] = $sonSenkron;
@@ -97,6 +103,7 @@ final class KaralisteApi
             'gorunenNumara'    => $s['Karaliste_GorunenNumara'],
             'eslesmeTipiId'    => (int) $s['Karaliste_EslesmeTipi_id'],
             'aciklama'         => $s['Karaliste_Aciklama'],
+            'izinli'           => (bool) $s['Karaliste_Izinli'],
             'durum'            => (bool) $s['Durum'],
             'silindi'          => (bool) $s['Karaliste_Silindi'],
             'guncellemeTarihi' => $s['guncellemeTarihi'],
@@ -143,6 +150,8 @@ final class KaralisteApi
             'gorunen'  => mb_substr($gorunen, 0, 50),
             'tip'      => $tip,
             'aciklama' => $aciklama === '' ? null : mb_substr($aciklama, 0, 255),
+            // null: istemci alanı göndermedi (eski sürüm), mevcut değer değişmez
+            'izinli'   => array_key_exists('izinli', $d) ? (int) (bool) $d['izinli'] : null,
             'durum'    => (int) (bool) ($d['durum'] ?? true),
             'silindi'  => (int) (bool) ($d['silindi'] ?? false),
         ];
@@ -179,9 +188,10 @@ final class KaralisteApi
             Veritabani::calistir(
                 'UPDATE dbo.Karaliste
                  SET Karaliste_Numara = ?, Karaliste_GorunenNumara = ?, Karaliste_EslesmeTipi_id = ?, Karaliste_Aciklama = ?,
+                     Karaliste_Izinli = COALESCE(CAST(? AS BIT), Karaliste_Izinli),
                      Durum = ?, Karaliste_Silindi = ?, GuncelleyenKullanici = ?, GuncellemeTarihi = GETDATE()
                  WHERE Karaliste_id = ?',
-                [$k['numara'], $k['gorunen'], $k['tip'], $k['aciklama'], $k['durum'], $silindi, $kullaniciId, $mevcutId]
+                [$k['numara'], $k['gorunen'], $k['tip'], $k['aciklama'], $k['izinli'], $k['durum'], $silindi, $kullaniciId, $mevcutId]
             );
             return;
         }
@@ -189,9 +199,9 @@ final class KaralisteApi
         Veritabani::calistir(
             'INSERT INTO dbo.Karaliste
                 (Karaliste_Guid, Karaliste_Kullanicilar_id, Karaliste_Numara, Karaliste_GorunenNumara, Karaliste_EslesmeTipi_id,
-                 Karaliste_Aciklama, Durum, Karaliste_Silindi, OlusturanKullanici)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [$k['guid'], $kullaniciId, $k['numara'], $k['gorunen'], $k['tip'], $k['aciklama'], $k['durum'], $silindi, $kullaniciId]
+                 Karaliste_Aciklama, Karaliste_Izinli, Durum, Karaliste_Silindi, OlusturanKullanici)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [$k['guid'], $kullaniciId, $k['numara'], $k['gorunen'], $k['tip'], $k['aciklama'], $k['izinli'] ?? 0, $k['durum'], $silindi, $kullaniciId]
         );
     }
 }

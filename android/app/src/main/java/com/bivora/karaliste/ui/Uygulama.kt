@@ -3,6 +3,7 @@ package com.bivora.karaliste.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -17,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bivora.karaliste.R
 
-enum class Ekran { Liste, Engellenenler, Giris, Kayit, SifremiUnuttum }
+enum class Ekran { Liste, Guvenilenler, Engellenenler, Giris, Kayit, SifremiUnuttum }
 
 @Composable
 fun Uygulama(
@@ -55,6 +56,15 @@ fun Uygulama(
             guncelle = guncelle,
             altMenu = altMenu
         )
+        Ekran.Guvenilenler -> AnaEkran(
+            vm = vm,
+            rolVar = rolVar,
+            rolIste = rolIste,
+            girisAc = { ekran = Ekran.Giris },
+            guncelle = guncelle,
+            altMenu = altMenu,
+            izinli = true
+        )
         Ekran.Engellenenler -> EngellenenlerEkrani(vm = vm, altMenu = altMenu)
         Ekran.Giris -> GirisEkrani(
             vm = vm,
@@ -84,6 +94,12 @@ private fun AltMenu(secili: Ekran, sec: (Ekran) -> Unit) {
             onClick = { sec(Ekran.Liste) },
             icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
             label = { Text(stringResource(R.string.menu_karaliste)) }
+        )
+        NavigationBarItem(
+            selected = secili == Ekran.Guvenilenler,
+            onClick = { sec(Ekran.Guvenilenler) },
+            icon = { Icon(Icons.Default.CheckCircle, contentDescription = null) },
+            label = { Text(stringResource(R.string.menu_guvenilenler)) }
         )
         NavigationBarItem(
             selected = secili == Ekran.Engellenenler,

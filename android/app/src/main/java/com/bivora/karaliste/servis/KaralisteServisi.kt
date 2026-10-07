@@ -25,8 +25,14 @@ class KaralisteServisi : CallScreeningService() {
 
         kapsam.launch {
             val vt = VeriTabani.al(applicationContext)
-            val kural = if (numara.isNullOrBlank()) null
-            else vt.karalisteDao().eslesenKural(NumaraYardimci.sadelestir(numara))
+            val dao = vt.karalisteDao()
+            val sade = numara?.takeIf { it.isNotBlank() }?.let(NumaraYardimci::sadelestir)
+            // Güvenilen bir kurala uyan arama, karalistede eşleşse bile geçer ve kaydedilmez
+            val kural = when {
+                sade == null -> null
+                dao.eslesenKural(sade, izinli = true) != null -> null
+                else -> dao.eslesenKural(sade, izinli = false)
+            }
             val engelle = kural != null
 
             // Önce yanıt verilir; kayıt aramanın engellenmesini geciktirmesin
@@ -41,15 +47,15 @@ class KaralisteServisi : CallScreeningService() {
             )
 
             if (kural != null && numara != null) {
-                val dao = vt.engellenenAramaDao()
-                dao.ekle(
+                val gecmis = vt.engellenenAramaDao()
+                gecmis.ekle(
                     EngellenenArama(
                         numara = numara,
                         kuralNumara = kural.gorunenNumara,
                         eslesmeTipiId = kural.eslesmeTipiId
                     )
                 )
-                dao.eskileriTemizle(GECMIS_SINIRI)
+                gecmis.eskileriTemizle(GECMIS_SINIRI)
             }
         }
     }

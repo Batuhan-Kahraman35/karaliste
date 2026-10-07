@@ -45,7 +45,10 @@ class AnaViewModel(uygulama: Application) : AndroidViewModel(uygulama) {
     fun guncellemeKontrolEt() = guncelleme.arkaplandaKontrolEt()
     fun guncellemeyiBaslat() = guncelleme.baslat()
 
-    val liste: StateFlow<List<Karaliste>> = dao.tumu()
+    val liste: StateFlow<List<Karaliste>> = dao.tumu(izinli = false)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val guvenilenler: StateFlow<List<Karaliste>> = dao.tumu(izinli = true)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     val eslesmeTipleri: StateFlow<List<EslesmeTipi>> = dao.eslesmeTipleri()
@@ -66,7 +69,7 @@ class AnaViewModel(uygulama: Application) : AndroidViewModel(uygulama) {
 
     // ---- Karaliste ----
 
-    fun ekle(numara: String, aciklama: String, eslesmeTipiId: Int) {
+    fun ekle(numara: String, aciklama: String, eslesmeTipiId: Int, izinli: Boolean) {
         viewModelScope.launch {
             val desen = eslesmeTipiId == EslesmeTipi.DESEN
             val sade = if (desen) NumaraYardimci.desenSadelestir(numara) else NumaraYardimci.sadelestir(numara)
@@ -89,10 +92,11 @@ class AnaViewModel(uygulama: Application) : AndroidViewModel(uygulama) {
                     numara = sade,
                     gorunenNumara = numara.trim(),
                     eslesmeTipiId = eslesmeTipiId,
-                    aciklama = aciklama.trim().ifBlank { null }
+                    aciklama = aciklama.trim().ifBlank { null },
+                    izinli = izinli
                 )
             )
-            mesajGonder(R.string.basarili_eklendi)
+            mesajGonder(if (izinli) R.string.guvenilen_eklendi else R.string.basarili_eklendi)
             senkronIste()
         }
     }
@@ -109,7 +113,7 @@ class AnaViewModel(uygulama: Application) : AndroidViewModel(uygulama) {
             // Üyelikte silme sunucuya iletilene kadar işaretli tutulur
             if (oturum.value != null) dao.yumusakSil(kayit.id, System.currentTimeMillis())
             else dao.sil(kayit.id)
-            mesajGonder(R.string.basarili_silindi)
+            mesajGonder(if (kayit.izinli) R.string.guvenilen_silindi else R.string.basarili_silindi)
             senkronIste()
         }
     }

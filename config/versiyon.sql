@@ -81,3 +81,17 @@ GO
 --    örneklerini kullanır), SSS, sürüm notları (Ayarlar.uygulama_surum_notlari)
 --  * Gizlilik ve indirme sayfaları yeni stile geçti (assets/site.css v4)
 -- ============================================================
+
+-- ============================================================
+-- Versiyon 1.3.0 - 2026-10-07
+-- Güvenilen numaralar: karalistedeki bir kurala uysa bile her zaman geçen kayıtlar
+--  * Karaliste.Karaliste_Izinli (BIT, varsayılan 0)
+--  * Senkron: güvenilen kayıtlar yalnızca izinliDestegi=true gönderen istemcilere (APK 1.6.0+) döner
+-- ============================================================
+USE [karaliste_DB];
+GO
+
+IF COL_LENGTH('dbo.Karaliste', 'Karaliste_Izinli') IS NULL
+    ALTER TABLE [dbo].[Karaliste]
+        ADD [Karaliste_Izinli] BIT NOT NULL CONSTRAINT [DF_Karaliste_Izinli] DEFAULT (0);
+GO
