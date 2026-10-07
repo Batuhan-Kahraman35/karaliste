@@ -73,3 +73,11 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[HizSinirlari] WHERE [HizSinirlari_Islem] = '
         ([HizSinirlari_Islem], [HizSinirlari_IpLimit], [HizSinirlari_EpostaLimit], [HizSinirlari_PencereDakika], [HizSinirlari_SadeceHatali], [HizSinirlari_Aciklama])
     VALUES ('hesap-sil', 10, 5, 15, 1, N'Hesap silmede hatalı şifre denemeleri');
 GO
+
+-- ============================================================
+-- Versiyon 1.2.2 - 2026-10-07
+-- Tanıtım sitesi yeniden tasarlandı (DB değişikliği yok)
+--  * Ana sayfa: ekran görüntüleri, eşleştirme deneme kutusu (EslesmeTipleri
+--    örneklerini kullanır), SSS, sürüm notları (Ayarlar.uygulama_surum_notlari)
+--  * Gizlilik ve indirme sayfaları yeni stile geçti (assets/site.css v4)
+-- ============================================================
