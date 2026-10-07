@@ -84,5 +84,4 @@ Android yerel Room DB sürüm 4: `Karaliste`, `EslesmeTipleri`, `EngellenenArama
 ## Açık işler
 
 - [ ] Uygulama içi güncelleme cihazda çalıştı (1.4.1 yayında, site 2026-10-07'de yayına alındı). Sessiz kurulum (onaysız 2. güncelleme) henüz doğrulanmadı.
-- [ ] `surumler/` altındaki eski APK'lar (1.2.0, 1.3.0) silinebilir
 - [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, hesap silme ekranı, yönetim paneli
