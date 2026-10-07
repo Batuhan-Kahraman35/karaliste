@@ -47,7 +47,8 @@ final class Sablon
         return "$m[3].$m[2].$m[1]";
     }
 
-    public static function ust(string $baslik, string $aciklama): void
+    // $css: yeni tasarım denemeleri için farklı stil dosyası; $gizli: arama motorlarına kapalı sayfa
+    public static function ust(string $baslik, string $aciklama, string $css = '/assets/site.css?v=4', bool $gizli = false): void
     {
         ?><!doctype html>
 <html lang="tr">
@@ -56,9 +57,10 @@ final class Sablon
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= self::e($baslik) ?></title>
     <meta name="description" content="<?= self::e($aciklama) ?>">
+    <?php if ($gizli): ?><meta name="robots" content="noindex, nofollow"><?php endif; ?>
     <meta name="theme-color" content="#4B2AE8">
     <link rel="icon" href="/img/karaliste-ikon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/assets/site.css?v=3">
+    <link rel="stylesheet" href="<?= self::e($css) ?>">
 </head>
 <body>
 <header class="ust">
@@ -68,8 +70,9 @@ final class Sablon
             <span>Karaliste</span>
         </a>
         <nav>
-            <a href="/#ozellikler">Özellikler</a>
+            <a href="/#dene">Dene</a>
             <a href="/#kurulum">Kurulum</a>
+            <a href="/#sss">SSS</a>
             <a href="/gizlilik/">Gizlilik</a>
         </nav>
     </div>
