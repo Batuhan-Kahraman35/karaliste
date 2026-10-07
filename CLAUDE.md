@@ -36,7 +36,7 @@ temp/             Geçici SQL/test dosyaları
 - **Güvenilen numaralar** (`Karaliste_Izinli = 1`): aynı tablo ve aynı eşleştirme tipleri. Servis önce güvenilenlere bakar; eşleşirse arama geçer ve engellenenler kaydına yazılmaz. Senkron: güvenilen kayıtlar yalnızca `izinliDestegi: true` gönderen istemcilere (APK 1.6.0+) döner; istemci `izinli` alanını göndermezse sunucu mevcut değeri korur.
 - **Engellenen aramalar** yalnızca cihazda tutulur (son 1000 kayıt), sunucuya asla gönderilmez. Gizlilik metni buna dayanıyor.
 - **Kimlik doğrulama:** Bearer token (64 hex). DB'de yalnızca SHA-256 hash'i tutulur. Şifreler ve sıfırlama kodları bcrypt ile saklanır. Token cihazda `EncryptedSharedPreferences` ile şifreli tutulur.
-- **Uygulama içi güncelleme:** `/api/surum` → APK indirilir → SHA-256 doğrulanır → `PackageInstaller` oturumu (Android 12+ için `USER_ACTION_NOT_REQUIRED`). Günlük WorkManager kontrolü ve bildirim. `uygulama_min_surum_kodu` altındaki sürümlerde zorunlu güncelleme ekranı.
+- **Uygulama içi güncelleme:** `/api/surum` → APK indirilir → SHA-256 doğrulanır → `PackageInstaller` oturumu (Android 12+ için `USER_ACTION_NOT_REQUIRED`). Samsung (A17, Android 16) uygulama içinden yapılan güncellemede de onay soruyor; kabul edildi, sessiz kurulum aranmıyor. Günlük WorkManager kontrolü ve bildirim. `uygulama_min_surum_kodu` altındaki sürümlerde zorunlu güncelleme ekranı.
 - **Tema:** Bivora "03 Orbit" renkleri (`#4B2AE8` → `#FF2E93`, vurgu `#FFC93C`). Dinamik renk kapalı.
 - **Tarih/saat:** DB `GETDATE()` kullanılır (sunucu +03:00). PHP saat dilimi `httpdocs/.user.ini` içinde.
 - **Hız sınırı** (`HizSiniri`): `kayit`, `giris`, `sifre-sifirla-iste`, `sifre-sifirla`, `hesap-sil` için IP ve e-posta bazlı; limitler `HizSinirlari` tablosunda, aşımda 429 + `Retry-After`. Altyapı hatasında istek engellenmez (fail-open, loglanır).
@@ -84,5 +84,4 @@ Android yerel Room DB sürüm 5: `Karaliste`, `EslesmeTipleri`, `EngellenenArama
 
 ## Açık işler
 
-- [ ] Uygulama içi güncelleme cihazda çalıştı (1.4.1 yayında, site 2026-10-07'de yayına alındı). Sessiz kurulum (onaysız 2. güncelleme) henüz doğrulanmadı.
 - [ ] Değerlendirilecek: Play Protect inceleme başvurusu, Android geliştirici doğrulaması, yönetim paneli
