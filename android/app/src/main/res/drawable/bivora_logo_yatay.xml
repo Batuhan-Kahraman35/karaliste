@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- bivora-03-orbit-yatay.svg'den dönüştürüldü (viewBox -9 -9 491 118) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="491dp"
+    android:height="118dp"
+    android:viewportWidth="491"
+    android:viewportHeight="118">
+
+    <group
+        android:translateX="9"
+        android:translateY="9">
+
+        <!-- Orbit halkası: r=33, dasharray 132 → 229° yay, -140°'den başlar -->
+        <path
+            android:pathData="M24.72,28.79 A33,33 0 1,1 50.46,83.0"
+            android:strokeWidth="15"
+            android:strokeLineCap="round">
+            <aapt:attr name="android:strokeColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="4"
+                    android:startY="96"
+                    android:endX="96"
+                    android:endY="4">
+                    <item android:offset="0" android:color="@color/bivora_mor" />
+                    <item android:offset="1" android:color="@color/bivora_pembe" />
+                </gradient>
+            </aapt:attr>
+        </path>
+
+        <!-- Orbit merkez noktası -->
+        <path android:pathData="M38,50 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="4"
+                    android:startY="96"
+                    android:endX="96"
+                    android:endY="4">
+                    <item android:offset="0" android:color="@color/bivora_pembe" />
+                    <item android:offset="1" android:color="@color/bivora_sari" />
+                </gradient>
+            </aapt:attr>
+        </path>
+
+        <!-- BIVORA yazısı -->
+        <group
+            android:translateX="126"
+            android:translateY="19"
+            android:scaleX="0.62"
+            android:scaleY="0.62">
+
+            <!-- B -->
+            <path android:pathData="M9,0 L9,100" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            <path android:pathData="M9,0 L36,0 A25,25 0 0 1 36,50 L9,50" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            <path android:pathData="M9,50 L40,50 A25,25 0 0 1 40,100 L9,100" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+
+            <!-- I -->
+            <group android:translateX="90">
+                <path android:pathData="M9,0 L9,100" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            </group>
+
+            <!-- V -->
+            <group android:translateX="124">
+                <path android:pathData="M9,0 L47,100 L85,0" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            </group>
+
+            <!-- O -->
+            <group android:translateX="234">
+                <path android:pathData="M9,50 A38,50 0 0 1 85,50 A38,50 0 0 1 9,50" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            </group>
+
+            <!-- R -->
+            <group android:translateX="344">
+                <path android:pathData="M9,0 L9,100" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+                <path android:pathData="M9,0 L40,0 A25,25 0 0 1 40,52 L9,52" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+                <path android:pathData="M42,52 L78,100" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            </group>
+
+            <!-- A -->
+            <group android:translateX="447">
+                <path android:pathData="M9,100 L47,0 L85,100" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+                <path android:pathData="M25,64 L69,64" android:strokeColor="@color/bivora_yazi" android:strokeWidth="18" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            </group>
+        </group>
+    </group>
+</vector>

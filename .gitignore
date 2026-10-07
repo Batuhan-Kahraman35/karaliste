@@ -1,0 +1,48 @@
+# Geçici dosyalar
+temp/*
+!temp/.gitkeep
+
+# Ortam / gizli bilgiler
+.env
+config/veritabani.php
+*.keystore
+*.jks
+keystore.properties
+
+# Composer
+vendor/
+
+# Dağıtılan APK'lar (web kök dizini dışında)
+surumler/
+
+# Plesk / IIS (sunucuya özel yollar içerir)
+App_Data/
+/web.config
+/.user.ini
+httpdocs/web.config
+httpdocs/.user.ini
+httpdocs/index.html
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/captures/
+android/.kotlin/
+*.iml
+*.apk
+*.aab
+
+# Claude Code yerel notları (sunucu yolları)
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Editör / sistem
+.vscode/
+Thumbs.db
+.DS_Store
+
+# VS Code Local History
+.lh/

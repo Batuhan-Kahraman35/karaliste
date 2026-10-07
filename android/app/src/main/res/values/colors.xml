@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bivora marka renkleri (bivora-logo-paketi / 03 Orbit) -->
+<resources>
+    <color name="bivora_mor">#FF4B2AE8</color>
+    <color name="bivora_pembe">#FFFF2E93</color>
+    <color name="bivora_sari">#FFFFC93C</color>
+    <!-- Logo yazısı; karanlık temada values-night ile beyaz -->
+    <color name="bivora_yazi">#FF12101F</color>
+</resources>

@@ -1,0 +1,19 @@
+{
+    "name": "bivora/karaliste",
+    "description": "Karaliste API",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.3",
+        "ext-pdo_sqlsrv": "*",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Karaliste\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

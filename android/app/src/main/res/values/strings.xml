@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Karaliste</string>
+    <string name="bivora">Bivora</string>
+
+    <string name="ara">Numara veya açıklama ara</string>
+    <string name="liste_bos">Karaliste boş. Eklemek için + butonuna dokunun.</string>
+    <string name="sonuc_yok">Aramayla eşleşen kayıt yok.</string>
+
+    <string name="numara_ekle">Numara ekle</string>
+    <string name="numara">Numara</string>
+    <string name="aciklama">Açıklama (isteğe bağlı)</string>
+    <string name="kaydet">Kaydet</string>
+    <string name="vazgec">Vazgeç</string>
+    <string name="sil">Sil</string>
+    <string name="sil_baslik">Numarayı sil</string>
+    <string name="sil_onay">%1$s karalisteden silinsin mi?</string>
+    <string name="geri">Geri</string>
+
+    <string name="rol_baslik">Arama engelleme kapalı</string>
+    <string name="rol_aciklama">Aramaların engellenebilmesi için Karaliste\'nin arama filtreleme uygulaması olarak seçilmesi gerekir.</string>
+    <string name="rol_izin_ver">İzin ver</string>
+
+    <string name="basarili_eklendi">Numara karalisteye eklendi.</string>
+    <string name="basarili_silindi">Numara karalisteden silindi.</string>
+    <string name="hata_gecersiz_numara">Geçerli bir numara girin.</string>
+    <string name="hata_numara_var">Bu numara zaten karalistede.</string>
+    <string name="hata_desen_joker">Desende en az bir ? (veya x, *) olmalı.</string>
+    <string name="hata_desen_uzunluk">Desen, baştaki 0 hariç 10 haneli olmalı. Örnek: 0850 ??? 0971</string>
+
+    <!-- Hesap -->
+    <string name="hesap">Hesap</string>
+    <string name="giris_yap">Giriş yap</string>
+    <string name="giris_aciklama">Giriş yaparak listenizi yedekleyebilir ve diğer cihazlarınızla senkronize edebilirsiniz. Üye olmadan da uygulamayı kullanabilirsiniz.</string>
+    <string name="hesap_olustur">Hesap oluştur</string>
+    <string name="kayit_aciklama">Telefondaki mevcut listeniz hesabınıza yüklenir.</string>
+    <string name="sifremi_unuttum">Şifremi unuttum</string>
+    <string name="sifirlama_aciklama">Hesabınızın e-posta adresini girin. Şifre sıfırlama kodu gönderilecek.</string>
+    <string name="cikis_yap">Çıkış yap</string>
+    <string name="ad_soyad">Ad soyad (isteğe bağlı)</string>
+    <string name="eposta">E-posta</string>
+    <string name="sifre">Şifre</string>
+    <string name="sifre_tekrar">Şifre (tekrar)</string>
+    <string name="yeni_sifre">Yeni şifre</string>
+    <string name="dogrulama_kodu">6 haneli kod</string>
+    <string name="kod_gonder">Kod gönder</string>
+    <string name="kodu_tekrar_gonder">Kodu tekrar gönder</string>
+    <string name="sifreyi_degistir">Şifreyi değiştir</string>
+
+    <string name="giris_yapildi">Giriş yapıldı. Liste senkronize ediliyor.</string>
+    <string name="kayit_yapildi">Hesabınız oluşturuldu. Liste senkronize ediliyor.</string>
+    <string name="cikis_yapildi">Çıkış yapıldı. Liste telefonda kalmaya devam ediyor.</string>
+    <string name="hata_sifre_kisa">Şifre en az %1$d karakter olmalı.</string>
+    <string name="hata_sifre_eslesmiyor">Şifreler eşleşmiyor.</string>
+
+    <!-- Engellenen aramalar -->
+    <string name="menu_karaliste">Karaliste</string>
+    <string name="menu_engellenenler">Engellenenler</string>
+    <string name="engellenen_aramalar">Engellenen aramalar</string>
+    <string name="engellenen_yok">Henüz engellenen arama yok.\nKaralistedeki bir numara sizi aradığında burada görünür.</string>
+    <string name="gecmisi_temizle">Geçmişi temizle</string>
+    <string name="gecmisi_temizle_onay">Engellenen aramaların tüm geçmişi silinsin mi? Karalisteniz etkilenmez.</string>
+    <string name="gecmis_temizlendi">Geçmiş temizlendi.</string>
+    <string name="temizle">Temizle</string>
+    <string name="kaydi_sil">Kaydı sil</string>
+    <string name="bugun">Bugün</string>
+    <string name="dun">Dün</string>
+
+    <!-- Güncelleme -->
+    <string name="guncelleme_baslik">Yeni sürüm: %1$s</string>
+    <string name="simdi_guncelle">Şimdi güncelle</string>
+    <string name="tekrar_dene">Tekrar dene</string>
+    <string name="guncelleme_indiriliyor">İndiriliyor… %%%1$d</string>
+    <string name="guncelleme_kuruluyor">Kuruluyor…</string>
+    <string name="zorunlu_baslik">Güncelleme gerekli</string>
+    <string name="zorunlu_aciklama">Kullandığınız sürüm artık desteklenmiyor. Karaliste\'yi kullanmaya devam etmek için lütfen güncelleyin.</string>
+    <string name="hata_guncelleme_indirme">Güncelleme indirilemedi. İnternet bağlantınızı kontrol edin.</string>
+    <string name="hata_guncelleme_dogrulama">İndirilen dosya doğrulanamadı. Lütfen tekrar deneyin.</string>
+    <string name="hata_guncelleme_kurulum">Güncelleme kurulamadı.</string>
+    <string name="bildirim_kanal_guncelleme">Güncellemeler</string>
+    <string name="bildirim_guncelleme_baslik">Karaliste %1$s hazır</string>
+    <string name="bildirim_guncelleme_metin">Güncellemek için dokunun.</string>
+    <string name="bildirim_guncellendi_baslik">Karaliste %1$s sürümüne güncellendi</string>
+    <string name="bildirim_guncellendi_metin">Arama engelleme çalışmaya devam ediyor.</string>
+
+    <!-- Senkron -->
+    <string name="senkronize_et">Senkronize et</string>
+    <string name="senkron_tamam">Liste senkronize edildi.</string>
+    <string name="hata_baglanti">Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin.</string>
+    <string name="hata_sunucu">Sunucu hatası. Lütfen daha sonra tekrar deneyin.</string>
+    <string name="hata_oturum_sona_erdi">Oturumunuz sona erdi. Lütfen tekrar giriş yapın.</string>
+</resources>
